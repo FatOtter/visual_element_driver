@@ -65,10 +65,14 @@ A Flask-based RESTful API service for providing 3D coordinate data to Unreal Eng
    pip install -r requirements.txt
    ```
 
-3. **Configure database**:
+3. **Configure database credentials** (if needed):
    ```bash
-   # Update config in src/config.py with your MySQL credentials
-   # Default: test_admin / [set via environment variable] @ localhost:3306
+   # Edit the configuration file
+   nano config/env.example
+   
+   # Change these lines:
+   # DB_USER=your-username
+   # DB_PASSWORD=your-password
    ```
 
 4. **Initialize database**:
@@ -81,7 +85,29 @@ A Flask-based RESTful API service for providing 3D coordinate data to Unreal Eng
    python run.py
    ```
 
-The API will be available at `http://localhost:5566`
+6. **Access the service**:
+   - API: http://localhost:5566
+   - Test Interface: http://localhost:5566/test
+   - Health Check: http://localhost:5566/api/v1/health
+
+## Configuration
+
+To change database credentials, edit `config/env.example`:
+
+```bash
+# Database Configuration
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=your-username          # Change this
+DB_PASSWORD=your-password      # Change this
+DB_NAME=productline_3d
+```
+
+### Default Configuration
+
+- **Database**: test_admin / 1qaz2wsxE @ localhost:3306
+- **Port**: 5566
+- **Environment**: development
 
 ### Testing
 

@@ -12,6 +12,7 @@ from flask_cors import CORS
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from src.config import config
+from dotenv import load_dotenv
 from src.database import init_database
 from src.app_logging import setup_logging, get_logger
 from src.middleware.error_handler import register_error_handlers
@@ -19,8 +20,19 @@ from src.middleware.cors import init_cors
 from src.api.routes import api_bp
 from src.api.health import health_bp
 
+def load_environment_config():
+    """Load environment variables from configuration file."""
+    # Simply load from config/env.example
+    config_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'config')
+    env_example_path = os.path.join(config_dir, 'env.example')
+    if os.path.exists(env_example_path):
+        load_dotenv(env_example_path)
+
 def create_app(config_name=None):
     """Create and configure Flask application."""
+    
+    # Load environment variables from config files
+    load_environment_config()
     
     # Create Flask app
     app = Flask(__name__)
