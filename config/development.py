@@ -11,7 +11,7 @@ class DevelopmentConfig:
     DB_HOST = os.environ.get('DB_HOST', 'localhost')
     DB_PORT = int(os.environ.get('DB_PORT', 3306))
     DB_USER = os.environ.get('DB_USER', 'test_admin')
-    DB_PASSWORD = os.environ.get('DB_PASSWORD', '1qaz2wsxE')
+    DB_PASSWORD = os.environ.get('DB_PASSWORD', 'your-database-password')
     DB_NAME = os.environ.get('DB_NAME', 'productline_3d')
     
     SQLALCHEMY_DATABASE_URI = f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"

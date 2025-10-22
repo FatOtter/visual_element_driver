@@ -68,7 +68,7 @@ A Flask-based RESTful API service for providing 3D coordinate data to Unreal Eng
 3. **Configure database**:
    ```bash
    # Update config in src/config.py with your MySQL credentials
-   # Default: test_admin / 1qaz2wsxE @ localhost:3306
+   # Default: test_admin / [set via environment variable] @ localhost:3306
    ```
 
 4. **Initialize database**:
