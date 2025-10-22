@@ -1,0 +1,31 @@
+# Flask and core dependencies
+Flask==2.3.3
+Flask-CORS==4.0.0
+Flask-SQLAlchemy==3.0.5
+Flask-Migrate==4.0.5
+
+# Database
+PyMySQL==1.1.0
+SQLAlchemy==2.0.23
+
+# Testing
+pytest==7.4.3
+pytest-flask==1.2.0
+pytest-cov==4.1.0
+
+# Development tools
+black==23.9.1
+flake8==6.1.0
+isort==5.12.0
+
+# Environment and configuration
+python-dotenv==1.0.0
+
+# JSON handling
+jsonschema==4.19.2
+
+# Logging
+structlog==23.1.0
+
+# Production server
+gunicorn==21.2.0

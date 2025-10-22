@@ -1,0 +1,345 @@
+openapi: 3.0.3
+info:
+  title: Productline 3D Data Retrieval API
+  description: RESTful API for retrieving 3D coordinate data for productline elements in Unreal Engine applications
+  version: 1.0.0
+  contact:
+    name: Development Team
+    email: dev@company.com
+
+servers:
+  - url: http://localhost:5566/api/v1
+    description: Development server
+  - url: https://api.company.com/api/v1
+    description: Production server
+
+paths:
+  /objects/{object_id}:
+    get:
+      summary: Retrieve object data by ID
+      description: Get complete 3D visualization data for a specific productline element
+      operationId: getObjectById
+      parameters:
+        - name: object_id
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 100
+          description: Unique identifier for the productline object
+        - name: timestamp
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+          description: Optional timestamp for historical data retrieval
+      responses:
+        '200':
+          description: Object data retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectResponse'
+              example:
+                object_id: "OBJ_001"
+                name: "Conveyor Belt Section A"
+                status: "active"
+                coordinates:
+                  position:
+                    x: 10.5
+                    y: 20.3
+                    z: 5.0
+                  height: 2.5
+                  direction:
+                    x: 1.0
+                    y: 0.0
+                    z: 0.0
+                  rotation: 0.0
+                metadata:
+                  type: "conveyor"
+                  speed: 1.2
+                  capacity: 100
+                created_at: "2025-01-27T10:00:00Z"
+                updated_at: "2025-01-27T15:30:00Z"
+        '404':
+          description: Object not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: "Object not found"
+                code: "OBJECT_NOT_FOUND"
+                message: "Object with ID 'OBJ_001' does not exist"
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: "Invalid object ID format"
+                code: "INVALID_OBJECT_ID"
+                message: "Object ID must be 1-100 characters"
+
+  /objects/batch:
+    post:
+      summary: Retrieve multiple objects
+      description: Get 3D data for multiple objects in a single request
+      operationId: getObjectsBatch
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BatchRequest'
+            example:
+              object_ids: ["OBJ_001", "OBJ_002", "OBJ_003"]
+              timestamp: "2025-01-27T12:00:00Z"
+      responses:
+        '200':
+          description: Batch request processed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchResponse'
+              example:
+                objects:
+                  - object_id: "OBJ_001"
+                    status: "active"
+                    coordinates:
+                      position: {x: 10.5, y: 20.3, z: 5.0}
+                      height: 2.5
+                      direction: {x: 1.0, y: 0.0, z: 0.0}
+                      rotation: 0.0
+                  - object_id: "OBJ_002"
+                    status: "active"
+                    coordinates:
+                      position: {x: 15.0, y: 25.0, z: 5.5}
+                      height: 3.0
+                      direction: {x: 0.0, y: 1.0, z: 0.0}
+                      rotation: 90.0
+                errors:
+                  - object_id: "OBJ_003"
+                    error: "Object not found"
+                    code: "OBJECT_NOT_FOUND"
+        '400':
+          description: Invalid batch request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /health:
+    get:
+      summary: Health check
+      description: Check API service health status
+      operationId: healthCheck
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "healthy"
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: "2025-01-27T15:30:00Z"
+                  version:
+                    type: string
+                    example: "1.0.0"
+
+  /test:
+    get:
+      summary: Developer testing interface
+      description: Simple web interface for testing API endpoints
+      operationId: getTestInterface
+      responses:
+        '200':
+          description: Testing interface HTML page
+          content:
+            text/html:
+              schema:
+                type: string
+
+components:
+  schemas:
+    ObjectResponse:
+      type: object
+      required:
+        - object_id
+        - status
+        - coordinates
+        - created_at
+        - updated_at
+      properties:
+        object_id:
+          type: string
+          description: Unique identifier for the object
+        name:
+          type: string
+          description: Human-readable name for the object
+        status:
+          type: string
+          enum: [active, inactive, processing, error]
+          description: Current state of the object
+        coordinates:
+          $ref: '#/components/schemas/Coordinates'
+        metadata:
+          type: object
+          description: Additional object properties
+        created_at:
+          type: string
+          format: date-time
+          description: Object creation timestamp
+        updated_at:
+          type: string
+          format: date-time
+          description: Last modification timestamp
+
+    Coordinates:
+      type: object
+      required:
+        - position
+        - height
+        - direction
+        - rotation
+      properties:
+        position:
+          $ref: '#/components/schemas/Position'
+        height:
+          type: number
+          format: float
+          description: Object height dimension
+        direction:
+          $ref: '#/components/schemas/Direction'
+        rotation:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 360
+          description: Rotation angle in degrees
+
+    Position:
+      type: object
+      required:
+        - x
+        - y
+        - z
+      properties:
+        x:
+          type: number
+          format: float
+          description: X coordinate in 3D space
+        y:
+          type: number
+          format: float
+          description: Y coordinate in 3D space
+        z:
+          type: number
+          format: float
+          description: Z coordinate in 3D space
+
+    Direction:
+      type: object
+      required:
+        - x
+        - y
+        - z
+      properties:
+        x:
+          type: number
+          format: float
+          description: X component of direction vector
+        y:
+          type: number
+          format: float
+          description: Y component of direction vector
+        z:
+          type: number
+          format: float
+          description: Z component of direction vector
+
+    BatchRequest:
+      type: object
+      required:
+        - object_ids
+      properties:
+        object_ids:
+          type: array
+          items:
+            type: string
+          minItems: 1
+          maxItems: 50
+          description: List of object IDs to retrieve
+        timestamp:
+          type: string
+          format: date-time
+          description: Optional timestamp for historical data
+
+    BatchResponse:
+      type: object
+      required:
+        - objects
+        - errors
+      properties:
+        objects:
+          type: array
+          items:
+            $ref: '#/components/schemas/ObjectResponse'
+          description: Successfully retrieved objects
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/BatchError'
+          description: Objects that could not be retrieved
+
+    BatchError:
+      type: object
+      required:
+        - object_id
+        - error
+        - code
+      properties:
+        object_id:
+          type: string
+          description: ID of the object that failed
+        error:
+          type: string
+          description: Error message
+        code:
+          type: string
+          description: Error code
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+        - code
+      properties:
+        error:
+          type: string
+          description: Error message
+        code:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Detailed error description
+
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key for authentication (future enhancement)
+
+security:
+  - ApiKeyAuth: []

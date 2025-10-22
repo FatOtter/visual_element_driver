@@ -1,0 +1,142 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Flask
+instance/
+.webassets-cache
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+data/
+
+# Logs
+*.log
+logs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Testing
+.coverage
+.pytest_cache/
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+.hypothesis/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# Docker
+.dockerignore
+
+# Configuration
+config/local.py
+config/secrets.py
+config/*.env
+config/*.key
+config/*.pem
+config/*.p12
+config/*.pfx
+
+# Secrets and credentials
+*.key
+*.pem
+*.p12
+*.pfx
+*.jks
+*.keystore
+*secret*
+*password*
+*token*
+*credential*
+*private*
+
+# Database credentials
+database.ini
+db_config.json
+connection_strings.txt
+
+# API keys and tokens
+api_keys.txt
+tokens.json
+credentials.json
+
+# SSL certificates
+*.crt
+*.cert
+*.pem
+ssl/
+certs/
+
+# Backup files
+*.backup
+*.bak
+*.old
+*.orig
+
+# Coverage and testing artifacts
+.coverage
+htmlcov/
+.pytest_cache/
+.tox/
+.nox/
+coverage.xml
+*.cover
+.hypothesis/

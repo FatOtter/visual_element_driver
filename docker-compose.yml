@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "5566:5566"
+    environment:
+      - FLASK_ENV=development
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_USER=test_admin
+      - DB_PASSWORD=${DB_PASSWORD:-your-database-password}
+      - DB_NAME=productline_3d
+    depends_on:
+      - mysql
+    volumes:
+      - ./logs:/app/logs
+      - ./data:/app/data
+    networks:
+      - productline_network
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-your-root-password}
+      - MYSQL_DATABASE=productline_3d
+      - MYSQL_USER=test_admin
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-your-database-password}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./scripts/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
+    networks:
+      - productline_network
+
+volumes:
+  mysql_data:
+
+networks:
+  productline_network:
+    driver: bridge

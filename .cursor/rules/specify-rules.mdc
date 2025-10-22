@@ -1,0 +1,29 @@
+# visual_element_driver Development Guidelines
+
+Auto-generated from all feature plans. Last updated: 2025-10-22
+
+## Active Technologies
+
+- Python 3.8+ (Flask compatibility) + Flask, SQLAlchemy (lightweight ORM), Flask-CORS, pytest (001-productline-3d-data)
+
+## Project Structure
+
+```text
+src/
+tests/
+```
+
+## Commands
+
+cd src [ONLY COMMANDS FOR ACTIVE TECHNOLOGIES][ONLY COMMANDS FOR ACTIVE TECHNOLOGIES] pytest [ONLY COMMANDS FOR ACTIVE TECHNOLOGIES][ONLY COMMANDS FOR ACTIVE TECHNOLOGIES] ruff check .
+
+## Code Style
+
+Python 3.8+ (Flask compatibility): Follow standard conventions
+
+## Recent Changes
+
+- 001-productline-3d-data: Added Python 3.8+ (Flask compatibility) + Flask, SQLAlchemy (lightweight ORM), Flask-CORS, pytest
+
+<!-- MANUAL ADDITIONS START -->
+<!-- MANUAL ADDITIONS END -->
